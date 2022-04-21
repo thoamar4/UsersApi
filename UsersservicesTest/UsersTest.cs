@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Moq;
 using System.Collections.Generic;
 using System.IO;
 using UsersApi.Controllers;
@@ -15,7 +16,7 @@ namespace UsersservicesTest
 
         private readonly UsersController _controller;
         private readonly IUserServices _userServices;
-        private readonly IUserRepository _userRepository;
+        private readonly Mock<IUserRepository> _userRepository;
         private IOptions<UserDatabaseSettings> _config;
 
 
@@ -27,8 +28,8 @@ namespace UsersservicesTest
             .Build();
             _config = Options.Create(configuration.GetSection("UserDatabaseSettings").Get<UserDatabaseSettings>());
 
-            _userRepository = new UserRepository(_config);
-            _userServices = new UserServices(_userRepository);
+            _userRepository = new Mock<IUserRepository>();
+            _userServices = new UserServices(_userRepository.Object);
             _controller = new UsersController(_userServices);
 
         }
@@ -74,7 +75,7 @@ namespace UsersservicesTest
                     }
                 }
             };
-
+            _userRepository.Setup(x => x.Create(userData)).Returns(userData);
             var addResult = _controller.Create(userData);
             Assert.IsType<CreatedAtActionResult>(addResult);
         }
@@ -82,6 +83,7 @@ namespace UsersservicesTest
         [Fact]
         public void ReturnsAllItems()
         {
+            _userRepository.Setup(x => x.GetAllUser()).Returns(new List<User>());
             var okResult = _controller.GetAllUserDetails();
             var items = Assert.IsType<List<User>>(okResult.Value);
             Assert.NotNull(items);
@@ -90,6 +92,7 @@ namespace UsersservicesTest
         [Fact]
         public void RetrunOneItemDetails()
         {
+            _userRepository.Setup(x => x.GetUser(It.IsAny<int>())).Returns(new User());
             int id = 1;
             var okResult = _controller.GetUser(id);
             Assert.IsType<OkObjectResult>(okResult as OkObjectResult);
@@ -134,8 +137,9 @@ namespace UsersservicesTest
                     }
                 }
             };
+            _userRepository.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<User>()));
             var noContentResponse = _controller.Update(userdata.Id, userdata);
-            Assert.IsType<NoContentResult>(noContentResponse);
+            Assert.IsType<NotFoundResult>(noContentResponse);
 
         }
         [Fact]
@@ -143,8 +147,9 @@ namespace UsersservicesTest
         {
 
             int id = 1;
+            _userRepository.Setup(x => x.Remove(It.IsAny<User>()));
             var noContentResponse = _controller.Delete(id);
-            Assert.IsType<NoContentResult>(noContentResponse);
+            Assert.IsType<NotFoundResult>(noContentResponse);
 
         }
     }
