@@ -7,7 +7,7 @@ using UsersApi.Models;
 
 namespace UsersApi.Services
 {
-    public class UserServices:IUserRepository
+    public class UserServices:IUserServices
     {
         private readonly IUserRepository _userRepositry;
         public UserServices(IUserRepository userRepositry)
@@ -21,16 +21,11 @@ namespace UsersApi.Services
         }
         public User GetUser(int id)
         {
-            //return JsonConvert.DeserializeObject<User>(obj1);
             return _userRepositry.GetUser(id);
         }
-
-
         public User Create(User user)
         {
-
             _userRepositry.Create(user);
-
             return user;
         }
         public void Update(int id, User userIn)
@@ -40,7 +35,6 @@ namespace UsersApi.Services
         public void Remove(User userIn)
         {
             _userRepositry.Remove(userIn);
-
         }
 
 

@@ -12,6 +12,7 @@ D:\Assignment\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.RazorTargetAsse
 D:\Assignment\UsersApi\UsersApi\bin\Debug\netcoreapp2.1\UsersApi.pdb
 D:\Assignment\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.dll
 D:\Assignment\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.pdb
+D:\Assignment1\UsersApi\UsersApi\bin\Debug\netcoreapp2.1\appsettings.json
 D:\Assignment1\UsersApi\UsersApi\bin\Debug\netcoreapp2.1\UsersApi.deps.json
 D:\Assignment1\UsersApi\UsersApi\bin\Debug\netcoreapp2.1\UsersApi.runtimeconfig.json
 D:\Assignment1\UsersApi\UsersApi\bin\Debug\netcoreapp2.1\UsersApi.runtimeconfig.dev.json
@@ -26,4 +27,3 @@ D:\Assignment1\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.AssemblyInfo.c
 D:\Assignment1\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.RazorTargetAssemblyInfo.cache
 D:\Assignment1\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.dll
 D:\Assignment1\UsersApi\UsersApi\obj\Debug\netcoreapp2.1\UsersApi.pdb
-D:\Assignment1\UsersApi\UsersApi\bin\Debug\netcoreapp2.1\appsettings.json

@@ -1,11 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UsersApi.Models;
 using UsersApi.Services;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace UsersApi.Controllers
 {
@@ -13,15 +9,15 @@ namespace UsersApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userServices;
-        public UsersController(IUserRepository userServices) =>
+        private readonly IUserServices _userServices;
+        public UsersController(IUserServices userServices) =>
             _userServices = userServices;
-        
+
         /// <summary>
-        /// Get all records 
+        /// Get All User Details
         /// </summary>
-        
-        [HttpGet]
+        /// <returns>List of Users</returns>        
+        [HttpGet("GetAllUserDetails")]
         public ActionResult<List<User>> GetAllUserDetails()
         {
             return _userServices.GetAllUser();
@@ -29,41 +25,45 @@ namespace UsersApi.Controllers
 
 
         /// <summary>
-        ///  Get method to get record on the basis of id
+        /// Get method to get record on the basis of id
         /// </summary>
-       
-       
+        /// <param name="id"></param>
+        /// <returns>User basis on id</returns>
 
-        [HttpGet("{id}")]
-
-        public IActionResult Get(int id)
+        [HttpGet("GetUser/{id}")]
+         public IActionResult GetUser(int id)
         {
             var user = _userServices.GetUser(id);
             if(user == null)
             {
                 return NotFound();
             }
-            //return user;
             return Ok(user);
         }
 
         /// <summary>
-        ///  Create method to insert enities to collection 
+        /// Create method to insert enities to collection
         /// </summary>
-        [HttpPost]
+        /// <param name="user"></param>
+        /// <returns>Added User</returns>
+        
+
+        [HttpPost("AddUser")]
         public IActionResult Create([FromBody]User user)
         {
             var user1=_userServices.Create(user);
-            return CreatedAtAction(nameof(Get), new { id = user.Id}, user);
-            //return Ok(user1);
-
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id}, user);
+           
         }
 
         /// <summary>
-        ///    Update method to Update record on the basis of id
+        /// Update method to Update record on the basis of id
         /// </summary>
-        
-        [HttpPut("{id}")]
+        /// <param name="id"></param>
+        /// <param name="UserIn"></param>
+        /// <returns>Update the User basis on id</returns>
+
+        [HttpPut("UpdateUser/{id}")]
         public IActionResult Update(int id, User UserIn)
         {
             var user = _userServices.GetUser(id);
@@ -79,8 +79,10 @@ namespace UsersApi.Controllers
         /// <summary>
         /// delete method to delete record on the basis of id
         /// </summary>
-        
-        [HttpDelete("{id}")]
+        /// <param name="id"></param>
+        /// <returns>Delete the User</returns>
+
+        [HttpDelete("DeleteUser/{id}")]
         public IActionResult Delete(int id)
         {
             var user = _userServices.GetUser(id);

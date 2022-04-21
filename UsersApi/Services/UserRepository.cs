@@ -20,9 +20,8 @@ namespace UsersApi.Services
         IOptions<UserDatabaseSettings> userDatabaseSettings;
         public UserRepository(IOptions<UserDatabaseSettings> settings)
         {
-
             userDbSettings = settings.Value;
-                     
+          
             var mongoClient = new MongoClient(
              userDbSettings.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(
@@ -31,18 +30,13 @@ namespace UsersApi.Services
                 userDbSettings.UsersCollectionName);
             
         }
-
-   
-        
         public List<User> GetAllUser()
          {
             return _usersCollection.Find(User => true).ToList();
         }
         public User GetUser(int id)
         {
-            //return JsonConvert.DeserializeObject<User>(obj1);
-
-            try
+           try
             {
                 return _usersCollection.Find<User>(user => user.Id == id).FirstOrDefault();
             }
@@ -53,14 +47,11 @@ namespace UsersApi.Services
             return null;
            
         }
-
-        
+       
         public User Create(User user)
         {
-          
-            _usersCollection.InsertOne(user);
-           
-            return user;
+           _usersCollection.InsertOne(user);
+           return user;
         }
         public void Update(int id,User userIn)
         {
@@ -71,8 +62,6 @@ namespace UsersApi.Services
             _usersCollection.DeleteOne(user => user.Id ==userIn.Id);
 
         }
-
-
        
     }
 }

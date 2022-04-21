@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using UsersApi.Models;
-using UsersApi.Controllers;
-using UsersApi.Services;
-using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.IO;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.IO;
+using UsersApi.Controllers;
+using UsersApi.Models;
+using UsersApi.Services;
+using Xunit;
 
 namespace UsersservicesTest
 {
-    public class UsersTest 
+    public class UsersTest
     {
-       
+
         private readonly UsersController _controller;
-        private readonly IUserRepository _userServices;
+        private readonly IUserServices _userServices;
         private readonly IUserRepository _userRepository;
         private IOptions<UserDatabaseSettings> _config;
 
@@ -29,17 +26,17 @@ namespace UsersservicesTest
             .AddJsonFile("appsettings.json", false)
             .Build();
             _config = Options.Create(configuration.GetSection("UserDatabaseSettings").Get<UserDatabaseSettings>());
-                       
+
             _userRepository = new UserRepository(_config);
             _userServices = new UserServices(_userRepository);
-           _controller = new UsersController(_userServices);
-           
+            _controller = new UsersController(_userServices);
+
         }
 
 
         [Fact]
-        
-        public  void AddingUser()
+
+        public void AddingUser()
         {
             User userData = new User()
             {
@@ -47,7 +44,7 @@ namespace UsersservicesTest
                 Name = "Leanne Graham",
                 UserName = "Bret",
                 Email = "Sincere@april.biz",
-                Address=new List<AddressList>
+                Address = new List<AddressList>
                 {
                     new AddressList()
                     {
@@ -65,9 +62,9 @@ namespace UsersservicesTest
                         }
                     }
                 },
-                Phone= "1-770-736-8031 x56442",
-                Website= "hildegard.org",
-                Company=new List<CompanyList>()
+                Phone = "1-770-736-8031 x56442",
+                Website = "hildegard.org",
+                Company = new List<CompanyList>()
                 {
                     new CompanyList()
                     {
@@ -85,21 +82,19 @@ namespace UsersservicesTest
         [Fact]
         public void ReturnsAllItems()
         {
-            
             var okResult = _controller.GetAllUserDetails();
-            // Assert
             var items = Assert.IsType<List<User>>(okResult.Value);
-            Assert.Equal(1, items.Count);
+            Assert.NotNull(items);
         }
 
         [Fact]
         public void RetrunOneItemDetails()
         {
             int id = 1;
-            var okResult = _controller.Get(id);
+            var okResult = _controller.GetUser(id);
             Assert.IsType<OkObjectResult>(okResult as OkObjectResult);
         }
-        
+
         [Fact]
         public void Update_Oneitem()
         {
@@ -139,7 +134,7 @@ namespace UsersservicesTest
                     }
                 }
             };
-            var noContentResponse = _controller.Update(userdata.Id,userdata);
+            var noContentResponse = _controller.Update(userdata.Id, userdata);
             Assert.IsType<NoContentResult>(noContentResponse);
 
         }

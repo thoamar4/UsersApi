@@ -11,7 +11,6 @@ namespace UsersApi.Models
     public class User
     {
 
-        
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string _Id { get; set; }
@@ -24,7 +23,6 @@ namespace UsersApi.Models
         [BsonElement("email")]
         public string Email { get; set; }
        [BsonElement("address")]
-       
        public List<AddressList> Address { get; set; }
        
         [BsonElement("phone")]
@@ -34,8 +32,5 @@ namespace UsersApi.Models
         [BsonElement("company")]
        
         public List<CompanyList> Company { get; set; }
-
-
-
     }
 }

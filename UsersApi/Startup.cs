@@ -28,11 +28,8 @@ namespace UsersApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // UserDatabaseSettings oAppConfig = Configuration.GetSection("UserDatabaseSettings").Get<UserDatabaseSettings>();
-
-            // services.AddScoped<IUserRepository,UserServices>();
             services.AddTransient<IUserRepository, UserRepository>();
-            //services.AddTransient<IUserRepository, UserServices>();
+            services.AddTransient<IUserServices, UserServices>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.Configure<UserDatabaseSettings>(Configuration.GetSection("UserDatabaseSettings"));
 
